@@ -30,3 +30,6 @@ Ställde in bridged host med physical Connection.
 Windows kan pinga Ubuntu, men Ubuntu kan inte pinga Windows.
 Frågar Gemini vad det kan bero på, Gemini pekar på brandväggen hos Windows, blir föreslagen att aktivera regeln ICMPv4.
 Aktiverar regeln ICMPv4 och plötsligt rullar all inkommande pingar in.
+
+**Windows:**  
+Terminal öppnades för att kunna använda både PowerShell och Kommandotolken. Kommandotolken omdirigerades till C: med cd C:\, följt av skapandet av mappen Systemmentor med mkdir Systementor. Efter en omdirigering till den mappen skapades undermappen KonsultData med mkdir KonsultData. Därefter bytte fliken till Windows PowerShell där en omdirigering gjordes till konsultdata-mappen med cd C:\Systementor\KonsultData, varefter kommandot Get-acl kördes för att hämta behörigheterna.
