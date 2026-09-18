@@ -111,3 +111,4 @@ När en ny katalog som heter Arkivet skapas i hemanvändarens Documents-mapp til
 
  Berättighetskoderna Gemini medger om, stämmer överens om man jämför med en blog-post från Red Hat, "Linux permissions: An introduction to chmod" publicerad den 10 September år 2019, där en av de högsta tillgångar alltså 6 ger rättigheten skriv och läs, och om det är den första siffran (från vänster) i hundratalet så gäller rättigheterna ägare, andra gäller grupper och sista andra användare. 
 
+ 
