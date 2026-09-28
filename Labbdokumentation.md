@@ -8,12 +8,14 @@ Detta är ett lab-experiment på att sätta upp en virtuell labbmiljö, dokument
 
 | Hostname | Operativsystem | IP-adress | Subnätmask | Standardgateway |
 | :--- | :--- | :--- | :--- | :--- |
-| Ubuntu | Ubuntu 26.04 | 192.168.50.5 | 255.255.255.0 | 192.168.50.1 |
-| Windows | Windows 11 | 192.168.50.202 | 255.255.255.0 | 192.168.50.1 |
+| user-VMware-Virtual-Platform | Ubuntu 26.04 | 192.168.50.5 | 255.255.255.0 | 192.168.50.1 |
+| VMWare | Windows 11 | 192.168.50.202 | 255.255.255.0 | 192.168.50.1 |
 
 
 Konfigurerade statiska IP-addresser på både Windows och Ubuntu för att undvika att IP-addresserna ändras övertid då de bestämdes innan av en DHCP-server. Genom inställningar appen på både Windows och Ubuntu, manuellt konfigurerades IP-addresserna till samma-addresser som DHCP gav ut.
 
+![Min skärmdump](Skärmavbilder/NatverkconfigUbuntu.png)
+![Min skärmdump](Skärmavbilder/NatverkconfigWindows.png)
 
 **Kommandoradsgemonförande**  
 
@@ -25,14 +27,25 @@ En anteckningsfil skapas genom att använda nano-kommandot tillsammans med sudo 
 
 Arbetet fortsätter genom att omdirigera bakåt med cd .. för att gå tillbaka till systemmentor och ändra behörigheterna för mappen konsultdata med sudo chmod 750 konsultdata. Kommandot ls -la bekräftar sedan ändringen med utdata som visar drwxr-x--- 2 root konsulter 4096 Sep 15 14:50 konsultdata, vilket innebär att det inte längre går att omdirigera till mappen som vanlig användare.  
 
+![Min skärmdump](Skärmavbilder/Sk%C3%A4rmbild%202026-09-15%20145513.png)
+
+![Min skärmdump](Skärmavbilder/Sk%C3%A4rmbild%202026-09-15%20145859.png)
+
 **Verifiering av nätverksanslutning:**  
 Ställde in bridged host med physical Connection.
 Windows kan pinga Ubuntu, men Ubuntu kan inte pinga Windows.
 Frågar Gemini vad det kan bero på, Gemini pekar på brandväggen hos Windows, blir föreslagen att aktivera regeln ICMPv4.
 Aktiverar regeln ICMPv4 och plötsligt rullar all inkommande pingar in.
 
+![Min skärmdump](Skärmavbilder/BrandvaggKonfiguration.png)
+![Min skärmdump](Skärmavbilder/UbuntuPing.png)
+![Min skärmdump](Skärmavbilder/WindowsPing.png)
+
 **Windows:**  
 Terminal öppnades för att kunna använda både PowerShell och Kommandotolken. Kommandotolken omdirigerades till C: med cd C:\, följt av skapandet av mappen Systemmentor med mkdir Systementor. Efter en omdirigering till den mappen skapades undermappen KonsultData med mkdir KonsultData. Därefter bytte fliken till Windows PowerShell där en omdirigering gjordes till konsultdata-mappen med cd C:\Systementor\KonsultData, varefter kommandot Get-acl kördes för att hämta behörigheterna.
+
+![Min skärmdump](Skärmavbilder/SkapaKatalogWin.png)
+![Min skärmdump](Skärmavbilder/KontrolleraBerattigheter.png)
 
 **AI-stöd & Kritisk Utvärdering**   
 Gemini var matad prompten: "Kan du förklara hur Linux behörighetsfunktion med chmod fungerar, vad de tre siffrorna (t.ex. 750) betyder, och hur jag använder kommandot i praktiken?"
@@ -111,4 +124,26 @@ När en ny katalog som heter Arkivet skapas i hemanvändarens Documents-mapp til
 
  Berättighetskoderna Gemini medger om, stämmer överens om man jämför med en blog-post från Red Hat, "Linux permissions: An introduction to chmod" publicerad den 10 September år 2019, där en av de högsta tillgångar alltså 6 ger rättigheten skriv och läs, och om det är den första siffran (från vänster) i hundratalet så gäller rättigheterna ägare, andra gäller grupper och sista andra användare. 
 
- 
+
+
+ ![Min skärmdump](Skärmavbilder/TestPrompt.png)  
+
+För att dubbelbekräfta skapas ett nytt användarkonto med "vanliga" behörigheter (ej admin) på samma maskin "NyAnvandare". Filen "Hej.txt" flyttas till en mer allmän katalog eftersom filen ligger i huvudadmins personliga katalog, och skulle då kräva högrebehörighetsrättigheter för att läsa dess filer. Filen flyttas till /tmp, en katalog som är egentligen för cache av användarapplikationer. När filen försöks läsas på det nya användarkontot "NyAnvandare" dyks en felkod upp "Error reading Hej.txt: Permission denied", det går alltså att bekräfta att endast ägaren av filen kan läsa filen.
+
+![Min skärmdump](Skärmavbilder/SkapelseAvAnvandare.png)
+  ![Min skärmdump](Skärmavbilder/TerminalOmdirigering.png)
+  ![Min skärmdump](Skärmavbilder/NanoInterface.png)
+
+
+Genom att utföra chmod kommandot fast med bokstäver istället, alltså r för read, w för write, och x för execute som Gemini talade om, återskapades exemplerna och gav dessa resultat, där berättigheterna ändrades till detta: 
+
+| Filnamn | Kommando | Förändring | Resultat |
+| :--- | :--- | :--- | :--- |
+| **skript.sh** | `chmod g+x` | Gav gruppen körrättigheter | `(-rw-rwxr--) 674`|
+| **hemligt.txt** | `chmod o-rwx` | Tog bort all behörighet för övriga | `(-rw-rw----) 660` |
+| **dokument.txt** | `chmod u=rwx` | Gav ägaren fullständiga rättigheter | `(-rwxrw-r--) 764`|
+
+Dessa resultat stämmer överens med hur Gemini beskriv vad de skulle göra
+
+![Min skärmdump](Skärmavbilder/Stat1.png)
+![Min skärmdump](Skärmavbilder/Stat2.png)
