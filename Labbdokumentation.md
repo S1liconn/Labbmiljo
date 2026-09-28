@@ -47,6 +47,10 @@ Terminal öppnades för att kunna använda både PowerShell och Kommandotolken. 
 ![Min skärmdump](Skärmavbilder/SkapaKatalogWin.png)
 ![Min skärmdump](Skärmavbilder/KontrolleraBerattigheter.png)
 
+**Git & Versionhantering**  
+https://github.com/S1liconn/Labbmiljo  
+![Min skärmdump](Skärmavbilder/GitLog.png)  
+
 **AI-stöd & Kritisk Utvärdering**   
 Gemini var matad prompten: "Kan du förklara hur Linux behörighetsfunktion med chmod fungerar, vad de tre siffrorna (t.ex. 750) betyder, och hur jag använder kommandot i praktiken?"
 
@@ -143,7 +147,7 @@ Genom att utföra chmod kommandot fast med bokstäver istället, alltså r för 
 | **hemligt.txt** | `chmod o-rwx` | Tog bort all behörighet för övriga | `(-rw-rw----) 660` |
 | **dokument.txt** | `chmod u=rwx` | Gav ägaren fullständiga rättigheter | `(-rwxrw-r--) 764`|
 
-Dessa resultat stämmer överens med hur Gemini beskriv vad de skulle göra
+Dessa resultat stämmer överens med hur Gemini beskriv vad de skulle göra.
 
 ![Min skärmdump](Skärmavbilder/Stat1.png)
 ![Min skärmdump](Skärmavbilder/Stat2.png)
